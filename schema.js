@@ -1,14 +1,42 @@
-const {GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLList, GraphQLSchema } = require('graphql');
+const {GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLList, GraphQLSchema} = require('graphql');
 const axios = require('axios');
+
+const FairingsType = new GraphQLObjectType({
+    name: "fairings",
+    fields: () => ({
+        reused: {type: GraphQLBoolean},
+        recovered: {type: GraphQLBoolean},
+        recovery_attempt: {type: GraphQLBoolean},
+        ship: {type: GraphQLString}
+    })
+})
 
 const RocketType = new GraphQLObjectType({
     name: "Rocket",
     fields: () => ({
         rocket_id: {type: GraphQLString},
         rocket_name: {type: GraphQLString},
-        rocket_type: {type: GraphQLString}
+        rocket_type: {type: GraphQLString},
+        fairings: {type: FairingsType}
     })
 });
+
+const FicklrImagesType = new GraphQLObjectType({
+    name: "flickr_images",
+})
+
+const LinksType = new GraphQLObjectType({
+    name: "Links",
+    fields: () => ({
+        mission_patch: {type: GraphQLString},
+        mission_patch_small: {type: GraphQLString},
+        video_link: {type: GraphQLString},
+        wikipedia: {type: GraphQLString},
+        reddit_launch: {type: GraphQLString},
+        presskit: {type: GraphQLString},
+        article_link: {type: GraphQLString}
+    })
+})
 
 const LaunchType = new GraphQLObjectType({
     name: "Launch",
@@ -19,6 +47,9 @@ const LaunchType = new GraphQLObjectType({
         launch_date_local: {type: GraphQLString},
         launch_success: {type: GraphQLBoolean },
         rocket: {type: RocketType},
+        details: {type: GraphQLString},
+        links: {type: LinksType} ,
+        is_tentative: {type: GraphQLBoolean},
     })
 });
 
